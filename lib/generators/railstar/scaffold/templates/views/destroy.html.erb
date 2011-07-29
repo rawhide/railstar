@@ -1,0 +1,10 @@
+<h1>Destroy <%= singular_table_name %></h1>
+
+<%%= render :partial => 'detail' %>
+
+<%% form_tag({}, :method => "delete") do -%>
+  <input type="submit" value="Cancel" name="back" />
+  <input type="submit" value="Destroy" />
+<%% end -%>
+
+<%%= link_to 'Back', <%= index_helper %>_path %>

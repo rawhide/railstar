@@ -1,0 +1,16 @@
+Railstar
+========
+
+コアプラグイン
+
+Example
+=======
+
+
+RAKETASK
+========
+
+rake catalog  #=> 利用しているgemやpluginの一覧を出力する。pluginの場合、VERSIONファイルにバージョン番号を記述すると、一覧に表示される
+
+
+Copyright (c) 2010 RAWHIDE., released under the MIT license

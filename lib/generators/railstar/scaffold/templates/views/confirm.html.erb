@@ -1,0 +1,9 @@
+<h1>Confirm <%= singular_table_name %></h1>
+
+<%%= render :partial => 'detail' %>
+
+<%%= form_tag({}, :method => request.request_method) do %>
+<%%= raw params_to_hidden_tag :<%= singular_table_name %> %>
+<input type="submit" value="戻る" name="back" />
+<input type="submit" value="保存" />
+<%% end %>

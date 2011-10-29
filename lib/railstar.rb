@@ -11,4 +11,4 @@ end
 
 CODE_DIR = Rails.root.to_s + "/resources/code"
 
-
+C = Railstar::CodeHolder

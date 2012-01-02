@@ -1,0 +1,34 @@
+common: &common
+  product_name: "rawhide"
+  domain: "localhost:3000"
+  base_url: "http://localhost:3000"
+  activation_from: "noreply@raw-hide.co.jp"
+  mail_to   : "info@raw-hide.co.jp"
+  mail_from : "noreply@raw-hide.co.jp"
+  oauth_token: ""
+  oauth_secret: ""
+  amazon_affid: ""
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+samurai:
+  <<: *common
+  domain: "lab.raw-hide.jp"
+  base_url: "http://lab.raw-hide.jp"
+
+staging:
+  <<: *common
+  domain: "dev.raw-hide.jp"
+  base_url: "http://dev.raw-hide.jp"
+
+production:
+  <<: *common
+  domain: "www.raw-hide.jp"
+  base_url: "http://www.raw-hide.jp"
+  oauth_token: ""
+  oauth_secret: ""
+

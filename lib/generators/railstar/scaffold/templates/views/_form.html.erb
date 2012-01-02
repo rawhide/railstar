@@ -1,22 +1,25 @@
 <%%= form_for(@<%= singular_table_name %>, :url => save_action(@<%= singular_table_name %>, :mode => "draft")) do |f| %>
 <%% if @<%= singular_table_name %>.errors.any? %>
-<div id="error_explanation">
+<div class="alert-message block-message error">
+  <a class="close" href="#">X</a>
   <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
   
-  <ul>
     <%% @<%= singular_table_name %>.errors.full_messages.each do |msg| %>
-    <li><%%= msg %></li>
+    <p><%%= msg %></p>
     <%% end %>
-  </ul>
+  </div>
 </div>
 <%% end %>
 
 
-<% for attribute in attributes -%>
-<div class="field">
-  <%%= f.label :<%= attribute.name %> %><br />
-  <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
-</div>
+<table class="bordered-table zebra-striped">
+  <% for attribute in attributes -%>
+  <tr>
+    <th><%%= f.label :<%= attribute.name %> %></th>
+    <td><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %></td>
+  </tr>
 <% end -%>
-<%%= f.submit %>
+</table>
+
+<%%= f.submit :class => "btn primary" %>
 <%% end %>

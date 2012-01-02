@@ -2,9 +2,11 @@
 
 <%%= render :partial => 'detail' %>
 
-<%% form_tag({}, :method => "delete") do -%>
-  <input type="submit" value="Cancel" name="back" />
-  <input type="submit" value="Destroy" />
+<%%= form_tag({}, :method => "delete") do -%>
+  <input type="submit" value="Cancel" name="back" class="btn" />
+  <input type="submit" value="Destroy" class="btn error" />
 <%% end -%>
 
-<%%= link_to 'Back', <%= index_helper %>_path %>
+<div>
+  <%%= link_to 'Back', <%= index_helper %>_path, :class => "btn" %>
+</div>

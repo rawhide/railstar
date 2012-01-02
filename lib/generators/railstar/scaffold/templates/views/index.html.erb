@@ -17,11 +17,12 @@
     <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
     <tr>
       <% for attribute in attributes -%>
-      <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+        <th><%= attribute.human_name.titleize %></th>
+        <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
       <% end -%>
-      <td><%%= link_to 'Show', <%= singular_controller_path %>_path(<%= singular_table_name %>) %></td>
-      <td><%%= link_to 'Edit', edit_<%= singular_controller_path %>_path(<%= singular_table_name %>) %></td>
-      <td><%%= link_to 'Delete', <%= singular_controller_path %>_path(<%= singular_table_name %>, :mode => "draft") %></td>
+      <td><%%= link_to 'Show', <%= singular_table_name %> %></td>
+      <td><%%= link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
+      <td><%%= link_to 'Delete', <%= singular_table_name %>_path(<%= singular_table_name %>, :mode => "draft") %></td>
     </tr>
     <%% end %>
   </tbody>
@@ -31,4 +32,4 @@
 <%%= will_paginate @<%= plural_name %> %>
 </p>
 
-<%%= link_to 'New <%= human_name %>', new_<%= singular_controller_path %>_path %>
+<%%= link_to 'New <%= human_name %>', new_<%= singular_table_name %>_path %>

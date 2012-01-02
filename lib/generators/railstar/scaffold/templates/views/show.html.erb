@@ -1,7 +1,8 @@
-<p id="notice"><%%= notice %></p>
-
+<h1>Showing <%= singular_table_name %></h1>
 <%%= render :partial => 'detail' %>
 
-<%%= link_to 'Edit', edit_<%= singular_controller_path %>_path(@<%= singular_table_name %>) %> |
-<%%= link_to 'Back', <%= plural_controller_path %>_path %>
+<div>
+  <%%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), :class => "btn" %>
+  <%%= link_to 'Back', <%= plural_controller_path %>_path, :class => "btn" %>
+</div>
 

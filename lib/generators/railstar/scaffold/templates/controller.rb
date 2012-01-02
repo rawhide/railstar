@@ -4,6 +4,8 @@
 # <%%= form_tag(<%= singular_controller_name %>_path(<%= singular_name %>, :mode => "draft"), :method=>:delete) do %><%%= submit_tag "delete", :name => "delete" %><%% end %>
 
 class <%= controller_class_name %>Controller < ApplicationController
+  layout "railstar"
+
   def index
     @<%= plural_name %> = <%= model_name %>.paginate(:per_page => 5, :page => params[:page], :order => "created_at desc")
   end
@@ -38,7 +40,7 @@ class <%= controller_class_name %>Controller < ApplicationController
       redirect_to(<%= plural_controller_path %>_url)
     elsif params[:mode] != "draft"
       @<%= singular_name %>.destroy
-      redirect_to(<%= plural_controller_path %>_url)
+      redirect_to(<%= plural_controller_path %>_url, :notice => "deleted success.")
     end
   end
 
@@ -50,7 +52,7 @@ class <%= controller_class_name %>Controller < ApplicationController
         render :action => 'confirm'
       else
         @<%= singular_name %>.save!
-        redirect_to <%= singular_controller_path %>_path(@<%= singular_name %>)
+        redirect_to <%= singular_controller_path %>_path(@<%= singular_name %>), :notice => 'saved success.'
       end
     else
       render (@<%= singular_name %>.new_record? ? :new : :edit)

@@ -11,6 +11,8 @@ module Railstar
       view_files.each do |f|
         template "views/#{f}.html.erb", "app/views/#{plural_controller_name}/#{f}.html.erb"
       end
+
+      template "views/railstar.html.erb", "app/views/layouts/railstar.html.erb"
     end
     
     private

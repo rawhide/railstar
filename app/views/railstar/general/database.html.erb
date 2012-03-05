@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+
+          <li class="nav-header">Tables</li>
+          <% @tables.each do |table| %>
+          <li><%= link_to table, :anchor => table %></li>
+          <% end %>
+        </ul>
+      </div><!--/.well -->
+    </div><!--/span-->
+    
+    <div class="span10">
+      <% @tables.each do |table| %>
+      <a name="<%= table %>"></a><h2><%= table %></h2>
+      <table class="table table-bordered table-condensed">
+        <thead>
+          <tr>
+            <% @cols.each do |c| %>
+            <th><%= c %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @connection.columns(table).each do |column| %>
+          <tr>
+            <% @cols.each do |c| %>
+            <td><%= column.send(c) %></td>
+            <% end %>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% end %>
+    </div><!--/span-->
+  </div><!--/row-->
+
+</div><!--/.fluid-container-->

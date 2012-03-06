@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   root :to => "general#index"
 
-  resources :tasks
   resources :projects
-
+  resources :tasks
   mount Railstar::Engine => "/railstar"
 end

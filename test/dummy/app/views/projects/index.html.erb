@@ -1,23 +1,27 @@
 <h1>Listing projects</h1>
 
 <table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <thead>
+    <tr>
+            <th>Name</th>
+            <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% @projects.each do |project| %>
-  <tr>
-    <td><%= project.name %></td>
-    <td><%= link_to 'Show', project %></td>
-    <td><%= link_to 'Edit', edit_project_path(project) %></td>
-    <td><%= link_to 'Destroy', project, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+
+  <tbody>
+    <% @projects.each do |project| %>
+    <tr>
+              <th>Name</th>
+        <td><%= project.name %></td>
+            <td><%= link_to 'Show', project %></td>
+      <td><%= link_to 'Edit', edit_project_path(project) %></td>
+      <td><%= link_to 'Delete', project_path(project, :mode => "draft") %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
-
-<br />
 
 <%= link_to 'New Project', new_project_path %>

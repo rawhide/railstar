@@ -1,0 +1,12 @@
+<h1>Destroy <%= singular_name %></h1>
+
+<%%= render :partial => 'detail' %>
+
+<%%= form_tag({}, :method => "delete") do -%>
+  <input type="submit" value="Cancel" name="back" class="btn" />
+  <input type="submit" value="Destroy" class="btn error" />
+<%% end -%>
+
+<div>
+  <%%= link_to 'Back', <%= plural_name %>_path, :class => "btn" %>
+</div>

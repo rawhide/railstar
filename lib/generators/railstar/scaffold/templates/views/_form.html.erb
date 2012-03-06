@@ -1,0 +1,19 @@
+<%%= form_for(@<%= singular_name %>, :url => save_action(@<%= singular_name %>, :mode => "draft")) do |f| %>
+<%% if @<%= singular_name %>.errors.any? %>
+<%% @<%= singular_name %>.errors.full_messages.each do |msg| %>
+<p><%%= msg %></p>
+<%% end %>
+<%% end %>
+
+
+<table class="bordered-table zebra-striped">
+  <% for attribute in attributes -%>
+  <tr>
+    <th><%%= f.label :<%= attribute.name %> %></th>
+    <td><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %></td>
+  </tr>
+<% end -%>
+</table>
+
+<%%= f.submit :class => "btn primary" %>
+<%% end %>

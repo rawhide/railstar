@@ -1,0 +1,10 @@
+<table class="bordered-table zebra-striped">
+  <% for attribute in attributes -%>
+
+  <tr>
+    <th><%= attribute.human_name %></th>
+    <td><%%= @<%= singular_name %>.<%= attribute.name %> %></td>
+  </tr>
+
+<% end -%>
+</table>

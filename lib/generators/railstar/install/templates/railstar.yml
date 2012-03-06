@@ -1,0 +1,10 @@
+default:
+  product_name: "Railstar"
+
+development:
+
+test:
+
+staging:
+
+production:

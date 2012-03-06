@@ -1,0 +1,31 @@
+<h1>Listing <%= plural_name %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <% for attribute in attributes -%>
+      <th><%= attribute.human_name %></th>
+      <% end -%>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <%% @<%= plural_name %>.each do |<%= singular_name %>| %>
+    <tr>
+      <% for attribute in attributes -%>
+        <th><%= attribute.human_name.titleize %></th>
+        <td><%%= <%= file_name %>.<%= attribute.name %> %></td>
+      <% end -%>
+      <td><%%= link_to 'Show', <%= singular_name %> %></td>
+      <td><%%= link_to 'Edit', edit_<%= singular_name %>_path(<%= singular_name %>) %></td>
+      <td><%%= link_to 'Delete', <%= singular_name %>_path(<%= singular_name %>, :mode => "draft") %></td>
+    </tr>
+    <%% end %>
+  </tbody>
+</table>
+
+<%%= link_to 'New <%= human_name %>', new_<%= singular_name %>_path %>

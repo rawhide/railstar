@@ -35,11 +35,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <%= link_to Railstar.env["product_name"], root_path, :class => "brand" %>
+          <%= link_to Railstar.env["product_name"], main_app.root_path, :class => "brand" %>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="<%= "active" if current_page?(database_path) %>"><%= link_to "Database", database_path %></li>
-              <li class="<%= "active" if current_page?(code_path) %>"><%= link_to "Code", code_path, {} %></li>
+              <li><%= link_to "Top", root_path %></li>
+              <li><%= link_to "Database", database_path %></li>
+              <li><%= link_to "Routes", routes_path, {} %></li>
+              <li><%= link_to "Annotations", annotations_path, {} %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

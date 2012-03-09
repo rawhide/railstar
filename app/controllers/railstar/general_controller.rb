@@ -1,3 +1,4 @@
+require 'rails/source_annotation_extractor'
 module Railstar
   class GeneralController < ApplicationController
     layout "railstar/application"
@@ -13,7 +14,9 @@ module Railstar
       @cols = %w(name human_name sql_type klass default type null)
     end
 
-    def code
+    def routes
+      Rails.application.reload_routes!
+      @routes = Rails.application.routes.routes
     end
   end
 end

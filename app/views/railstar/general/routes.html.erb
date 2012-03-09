@@ -1,0 +1,25 @@
+<div class="container">
+  <div>
+    <table class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>method</th>
+          <th>path</th>
+          <th>app</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% name = nil %>
+        <% @routes.each do |route| %>
+        <tr>
+          <td><%= name = route.name || name %></td>
+          <td><%= route.constraints[:request_method].inspect.gsub(/(nil)|[\/^$]/,"") %></td>
+          <td><%= route.path.spec %></td>
+          <td><%= route.defaults %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div><!--/span-->
+</div><!--/.fluid-container-->

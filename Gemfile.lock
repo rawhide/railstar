@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    railstar (0.0.6)
+    railstar (0.0.7)
       rails (~> 3.2.2)
 
 GEM

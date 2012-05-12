@@ -1,9 +1,7 @@
 require 'railstar/engine'
-
+require 'railstar/code_holder'
 require 'railstar/helper'
 ActionView::Base.send(:include, Railstar::Helper)
-
-
 
 module Railstar
   def self.env
@@ -19,4 +17,15 @@ module Railstar
       {}
     end
   end
+
+  def self.code_dir
+    self.root + "/../resources/code"
+  end
+
+  def self.root
+    RAILSTAR_ROOT
+  end
 end
+
+C = Railstar::CodeHolder.new
+RAILSTAR_ROOT = File.expand_path(File.dirname(__FILE__))

@@ -1,0 +1,5 @@
+title,性別
+#DATA
+key,value,position,name
+MALE,m,1,男性
+FEMALE,f,2,女性

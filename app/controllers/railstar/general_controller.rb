@@ -14,6 +14,10 @@ module Railstar
       @cols = %w(name human_name sql_type klass default type null)
     end
 
+    def code
+      @codes = C.codes
+    end
+
     def routes
       Rails.application.reload_routes!
       @routes = Rails.application.routes.routes

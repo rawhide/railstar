@@ -1,0 +1,6 @@
+title,ステータス
+#DATA
+key,value,position,name
+TODO,todo,1,TODO
+DOING,doing,2,DOING
+DONE,done,3,DONE

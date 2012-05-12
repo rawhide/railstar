@@ -1,27 +1,41 @@
 <h1>Listing tasks</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Project</th>
-    <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= form_tag(nil, :method => :get) do %>
+<%= label :search, :name %><%= text_field :search, :name %><br />
+<%= label :search, :like_name %><%= text_field :search, :like_name %><br />
+<% C.status.to_opt.each do |status| %>
+<%= label :search, "status_#{status.first}" %><%= check_box_tag "search[status][]", status.last, !!@search.status ? @search.status.detect{|s| s == status.last} : false %>
+<% end %><br />
+<%= label :search, :price %><%= text_field :search, :from_price %><%= text_field :search, :to_price %><br />
 
-<% @tasks.each do |task| %>
-  <tr>
-    <td><%= task.name %></td>
-    <td><%= task.project_id %></td>
-    <td><%= task.status %></td>
-    <td><%= link_to 'Show', task %></td>
-    <td><%= link_to 'Edit', edit_task_path(task) %></td>
-    <td><%= link_to 'Destroy', task, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<%= submit_tag :search %>
 <% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Price</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <% @tasks.each do |task| %>
+    <tr>
+      <td><%= task.name %></td>
+      <td><%= C.status[task.status].name %></td>
+      <td><%= task.price %></td>
+      <td><%= link_to 'Show', project_task_path(:id => task.id) %></td>
+      <td><%#= link_to 'Edit', edit_task_path(task) %></td>
+      <td><%#= link_to 'Delete', task_path(task, :mode => "draft") %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Task', new_task_path %>
+<%= link_to 'New Task', new_project_task_path %>

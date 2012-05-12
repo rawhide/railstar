@@ -1,83 +1,61 @@
-class TasksController < ApplicationController
-  # GET /tasks
-  # GET /tasks.json
-  def index
-    @tasks = Task.all
+# -*- coding: utf-8 -*-
+# destroyメソッドに注意。モバイル対応＆テキストリンク利用のためイレギュラーなことをしている
+# restに対応した形を徹底したい場合は、削除確認ページへのリンクを以下の様に、formにする
+# <%= form_tag(Task_path(task, :mode => "draft"), :method=>:delete) do %><%= submit_tag "delete", :name => "delete" %><% end %>
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @tasks }
-    end
+class TasksController < ApplicationController
+  def index
+    @search = Search::Task.new(params[:search])
+    @search.project_id = params[:project_id]
+    @tasks = @search.base.order("created_at desc").all
   end
 
-  # GET /tasks/1
-  # GET /tasks/1.json
   def show
     @task = Task.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @task }
-    end
+    render "destroy" if params[:mode] == "draft"
   end
 
-  # GET /tasks/new
-  # GET /tasks/new.json
   def new
-    @task = Task.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @task }
-    end
+    @task = Task.new(params[:task])
   end
 
-  # GET /tasks/1/edit
   def edit
     @task = Task.find(params[:id])
   end
 
-  # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(params[:task])
-
-    respond_to do |format|
-      if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
-        format.json { render json: @task, status: :created, location: @task }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
-    end
+    save
   end
 
-  # PUT /tasks/1
-  # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+    @task.attributes = params[:task]
+    save
+  end
 
-    respond_to do |format|
-      if @task.update_attributes(params[:task])
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+  def destroy
+    @task = Task.find(params[:id])
+    if params.key?("back")
+      redirect_to(task_url)
+    elsif params[:mode] != "draft"
+      @task.destroy
+      redirect_to(task_url, :notice => "deleted success.")
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
-  def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tasks_url }
-      format.json { head :no_content }
+  
+  private
+  def save
+    if !params.key?("back") && @task.valid?
+      if params[:mode] == "draft"
+        render :action => 'confirm'
+      else
+        @task.save!
+        redirect_to task_path(@task), :notice => 'saved success.'
+      end
+    else
+      render (@task.new_record? ? :new : :edit)
     end
   end
 end

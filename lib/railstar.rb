@@ -1,7 +1,11 @@
 require 'railstar/engine'
 require 'railstar/code_holder'
+require 'railstar/search_base'
+
 require 'railstar/helper'
 ActionView::Base.send(:include, Railstar::Helper)
+require 'railstar/active_record_ext'
+ActiveRecord::Base.send(:include, Railstar::ActiveRecordExt)
 
 module Railstar
   def self.env

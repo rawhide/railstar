@@ -3,7 +3,8 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.string :name
       t.integer :project_id
-      t.integer :status
+      t.string :status
+      t.integer :price
 
       t.timestamps
     end

@@ -1,20 +1,8 @@
-<p id="notice"><%= notice %></p>
+<h1>Showing project</h1>
+<%= render :partial => 'detail' %>
 
-<p>
-  <b>Name:</b>
-  <%= @task.name %>
-</p>
+<div>
+  <%= link_to 'Edit', edit_project_path(@project), :class => "btn" %>
+  <%= link_to 'Back', projects_path, :class => "btn" %>
+</div>
 
-<p>
-  <b>Project:</b>
-  <%= @task.project_id %>
-</p>
-
-<p>
-  <b>Status:</b>
-  <%= @task.status %>
-</p>
-
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>

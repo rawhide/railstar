@@ -1,10 +1,16 @@
 <h1>Listing projects</h1>
 
+<%= form_tag(nil, :method => :get) do %>
+<%= label :search, :name %>:<%= text_field :search, :name %><br />
+<%= label :search, :like_name %>:<%= text_field :search, :like_name %><br />
+<%= submit_tag :search %>
+<% end %>
+
 <table>
   <thead>
     <tr>
-            <th>Name</th>
-            <th></th>
+      <th>Name</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -14,9 +20,8 @@
   <tbody>
     <% @projects.each do |project| %>
     <tr>
-              <th>Name</th>
-        <td><%= project.name %></td>
-            <td><%= link_to 'Show', project %></td>
+      <td><%= link_to project.name, project_tasks_path(:project_id => project.id) %></td>
+      <td><%= link_to 'Show', project %></td>
       <td><%= link_to 'Edit', edit_project_path(project) %></td>
       <td><%= link_to 'Delete', project_path(project, :mode => "draft") %></td>
     </tr>

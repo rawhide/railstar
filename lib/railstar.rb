@@ -19,7 +19,7 @@ module Railstar
   end
 
   def self.code_dir
-    self.root + "/../resources/code"
+    self.root + "/../config/resources/code"
   end
 
   def self.root

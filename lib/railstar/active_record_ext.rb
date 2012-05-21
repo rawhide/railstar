@@ -20,7 +20,11 @@ module Railstar
             self.connection.execute("TRUNCATE TABLE `#{self.table_name}`")
           end
           YAML.load_file(file_path).each do |key, value|
-            self.create value
+            if value.is_a?(Hash)
+              self.create value
+            else
+              self.create key if key.is_a?(Hash)
+            end
           end
         end
       end

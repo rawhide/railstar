@@ -7,7 +7,7 @@ ActionView::Base.send(:include, Railstar::Helper)
 require 'railstar/active_record_ext'
 ActiveRecord::Base.send(:include, Railstar::ActiveRecordExt)
 
-require 'railstar/column_comment' if /mysql/i =~ Rails.configuration.database_configuration[Rails.env]["adapter"]
+#require 'railstar/column_comment' if /mysql/i =~ Rails.configuration.database_configuration[Rails.env]["adapter"]
 
 module Railstar
   def self.env

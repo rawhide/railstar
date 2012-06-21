@@ -1,42 +1,42 @@
 = Railstar
 
-= generator
+== generator
 
-= install 初期設定ファイルを配置
+=== install 初期設定ファイルを配置
 
-= scaffold 確認画面付きscaffold
+=== scaffold 確認画面付きscaffold
 
-= CodeHolder
+== CodeHolder
 RAILS_ROOT/resources/code
 配下にcsvを配置することで定数を管理することができる。
 
 例）RAILS_ROOT/resources/code/blood_type.csv
-title,血液型
-#DATA
-key,value,position,name,hoge
-A,a,1,A型,三角
-B,b,2,B型,台形
-AB,ab,3,AB型,星形
-O,o,4,O型,丸
-
-> C.blood_type.A => "a"
-> C.blood_type.A.name => "A型"
-> C.blood_type["a"] => "a"
-> C.blood_type["a"].key => "A"
-> C.blood_type["a"].name => "A型"
-> C.blood_type["a"].hoge => "三角"
-
+  title,血液型
+  #DATA
+  key,value,position,name,hoge
+  A,a,1,A型,三角
+  B,b,2,B型,台形
+  AB,ab,3,AB型,星形
+  O,o,4,O型,丸
 
 key,value,position,name 必須
+
+  > C.blood_type.A => "a"
+  > C.blood_type.A.name => "A型"
+  > C.blood_type["a"] => "a"
+  > C.blood_type["a"].key => "A"
+  > C.blood_type["a"].name => "A型"
+  > C.blood_type["a"].hoge => "三角"
+
 この後に任意の項目を付け足すことが可能（上記例ではhoge）
 
-<%= select_tag :blood_type, C.blood_type.to_opt %>で血液型のセレクトボックスが出来る
+  <%= select_tag :blood_type, C.blood_type.to_opt %>で血液型のセレクトボックスが出来る
 
-= ViewHelper
-<%= yield :head %>
-<%= yield :tltle %>
+== ViewHelper
+  <%= yield :head %>
+  <%= yield :tltle %>
 
 
-= 開発サポート
-mount Railstar::Engine => "/railstar"
+== 開発サポート
+  mount Railstar::Engine => "/railstar"
 現在はproductionでも見れているので注意

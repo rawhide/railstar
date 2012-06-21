@@ -2,13 +2,16 @@
 
 == generator
 
-=== install 初期設定ファイルを配置
+=== install
+初期設定ファイルを配置
 
-=== scaffold 確認画面付きscaffold
+=== scaffold
+確認画面付きscaffold
+
+モデルは作らない。コントローラとビューのみ
 
 == CodeHolder
-RAILS_ROOT/resources/code
-配下にcsvを配置することで定数を管理することができる。
+RAILS_ROOT/resources/code配下にcsvを配置することで定数を管理することができる。
 
 例）RAILS_ROOT/resources/code/blood_type.csv
   title,血液型
@@ -30,7 +33,11 @@ key,value,position,name 必須
 
 この後に任意の項目を付け足すことが可能（上記例ではhoge）
 
-  <%= select_tag :blood_type, C.blood_type.to_opt %>で血液型のセレクトボックスが出来る
+このセレクトボックスを作りたければ
+
+  <%= f.select :blood_type, C.blood_types.to_opt, :include_blank => "選択してください"  %>
+
+CSVのpositionカラムの数字を入れ替えることで、セレクトボックスの順番を変えることも可能
 
 == ViewHelper
   <%= yield :head %>

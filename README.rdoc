@@ -8,7 +8,10 @@
 === scaffold
 確認画面付きscaffold
 
-モデルは作らない。コントローラとビューのみ
+rails generate railstar:scaffold NAME [field[:type] field[:type]] [options]
+rails g railstar:scaffold article title:string body:text
+
+モデルは作らない。コントローラとビューのみ生成
 
 == CodeHolder
 RAILS_ROOT/resources/code配下にcsvを配置することで定数を管理することができる。
@@ -40,10 +43,28 @@ key,value,position,name 必須
 CSVのpositionカラムの数字を入れ替えることで、セレクトボックスの順番を変えることも可能
 
 == ViewHelper
-  <%= yield :head %>
-  <%= yield :tltle %>
+layoutファイルにおいて、
+  <head>
+    <title><%= yield :title %></title>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+  </head>
+
+としておくことで、各viewで、
+
+  <% title "ページタイトル" %> タイトル設定
+  <% stylesheet "hoge", "fuga" %> そのviewのみでhoge.cssとfuga.cssを読み込む
+  <% javascript "hoge", "fuga" %> そのviewのみでhoge.jsとfuga.jsを読み込む
+
+など、各viewから、親となるlayoutファイルのhead要素を追加することができる
+
 
 
 == 開発サポート
+config/routes.rbに以下の１行を記載することで、アプリケーション内の定数やルーティングを閲覧することができる
+
   mount Railstar::Engine => "/railstar"
+
 現在はproductionでも見れているので注意

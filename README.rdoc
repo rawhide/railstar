@@ -8,8 +8,8 @@
 === scaffold
 確認画面付きscaffold
 
-rails generate railstar:scaffold NAME [field[:type] field[:type]] [options]
-rails g railstar:scaffold article title:string body:text
+  rails generate railstar:scaffold NAME [field[:type] field[:type]] [options]
+  rails g railstar:scaffold article title:string body:text
 
 モデルは作らない。コントローラとビューのみ生成
 
@@ -42,7 +42,7 @@ key,value,position,name 必須
 
 CSVのpositionカラムの数字を入れ替えることで、セレクトボックスの順番を変えることも可能
 
-== ViewHelper
+== ページ毎の<head>要素コントロール
 layoutファイルにおいて、
   <head>
     <title><%= yield :title %></title>

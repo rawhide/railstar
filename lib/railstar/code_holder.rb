@@ -35,16 +35,20 @@ module Railstar
       super(nil)
 
       @order = []
+      @type = {}
 
       mode = "config"
       CSV.foreach(search_file(name), :encoding => "UTF-8") do |row|
-        if mode == "config" && row.first == "#DATA"
-          mode = "header"
+        if mode == "config"
+          if row.first == "type"
+            @type[row[1].to_sym] = row[2]
+          end
+          mode = "header" if row.first == "#DATA"
         elsif mode == "header"
           @headers = row.map(&:to_sym)
           mode = "data"
         elsif mode == "data" && row.first.present?
-          code = Code.new(@headers.zip(row).flatten)
+          code = Code.new(@headers.zip(row).flatten, @type)
           raise DuplicateValue, code.value if self[code.value]
           self[code.value.to_s] = code
           self.instance_eval <<-EOS
@@ -81,8 +85,9 @@ module Railstar
   end
 
   class Code < String
-    def initialize(args)
+    def initialize(args, type={})
       @data = Hash[*args]
+      @type = type
       super(@data[:value])
     end
 
@@ -95,7 +100,12 @@ module Railstar
     end
 
     def method_missing(name, *args)
-      @data[name.to_sym]
+      case @type[name]
+      when "integer"
+        @data[name.to_sym].to_i
+      else
+        @data[name.to_sym]
+      end
     end
   end
 end

@@ -10,10 +10,9 @@
         </tr>
       </thead>
       <tbody>
-        <% name = nil %>
         <% @routes.each do |route| %>
         <tr>
-          <td><%= name = route.name || name %></td>
+          <td><%= route.name %></td>
           <td><%= route.constraints[:request_method].inspect.gsub(/(nil)|[\/^$]/,"") %></td>
           <td><%= route.path.spec %></td>
           <td><%= route.defaults %></td>

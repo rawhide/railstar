@@ -17,8 +17,9 @@
       <table class="table table-bordered table-condensed">
         <thead>
           <tr>
+            <% sample = C.send(code).values.first %>
             <% C.send(code).headers.each do |c| %>
-            <th><%= c %></th>
+            <th><%= c %>:<%= sample.send(c).class.to_s %></th>
             <% end %>
           </tr>
         </thead>

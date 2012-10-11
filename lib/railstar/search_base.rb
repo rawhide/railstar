@@ -1,68 +1,116 @@
 # -*- coding: utf-8 -*-
+#検索ベースモデル
+# V2.0
+
+=begin
+使用例
+
+class Search::Profile
+  include Railstar::SearchBase
+end
+
+=end
+
+
 module Railstar
-  class SearchBase
-    attr_accessor :where, :values
+  module SearchBase
 
-    def initialize(hash)
-      self.where = []
-      self.values = {}
-      if hash
-        hash.each do |k,v|
-          send("#{k}=", v)
+    def self.included base
+      base.class_eval do
+        attr_accessor :where, :values
+        extend ClassMethods
+        include ActiveModel::Naming
+        include ActiveModel::Validations
+        include ActiveModel::Conversion
+      end
+    end
+
+    module ClassMethods
+      #meta data setter
+      def column name, options={}
+        ActiveRecord::ConnectionAdapters::Column.new(name, options[:default], options[:type] || "string").tap do |col|
+          define_method("#{name}=") do |value|
+            instance_variable_set("@#{name}", col.type_cast(value))
+          end
+          define_method(name) do
+            unless instance_variable_defined?("@#{name}")
+              instance_variable_set("@#{name}", col.default)
+            end
+            instance_variable_get("@#{name}")
+          end
+        end
+      end
+
+      def set_model klass
+        #TODO: klassが存在する（ActiveRecord::Baseの子供として）かどうかをチェックしたい。
+        # ActiveRecord::Base.connection.tablesをみて、テーブル名からクラスを探すチェックをいれる
+        raise ArgumentError.new('please set ActiveRecord classs') unless defined?(klass)
+        define_method(:target_model) do
+          klass
         end
       end
     end
 
-    def to_params
-      ret = {}
-      TARGET_COLUMN.each do |c|
-        unless eval(c.to_s).blank?
-          ret[c] = eval(c.to_s)
-        end
+    #params(検索条件を渡す)
+    def initialize conditions={}
+      conditions.each_pair do | key, val |
+        writer_method = "#{key}="
+        self.send(writer_method, val) if self.respond_to?(writer_method)
       end
-      return ret
     end
 
-    def to_str_params
-      ret = to_params.map do |k,v|
-        begin
-          "#{k}=#{CGI.escape(v)}"
-        rescue
-        end
+    def find(options={})
+      reset_conditions
+      create_conditions
+      if where.blank?
+        target_model.scoped
+      else
+        target_model.where([where.join(" and "), values])
       end
-      ret.join("&")
     end
 
-    def base
-      create_conditions #TODO: 毎回条件作成をしないようにしたい
-      target_model.where([self.where.join(" AND "), values])
+    def count(options={})
+      reset_conditions
+      create_conditions
+      target_model.count("#{target_model.table_name}.id", options.merge(
+                                                                        :conditions => where.blank? ? nil : [where.join(" and "), values]
+                                                                        ))
     end
 
     private
-    def like(method, options={})
-      value = eval(method.to_s)
-      unless value.blank?
-        column = options[:column] || method
-        self.where << "#{with_table_name(options[:table_name],column)} like :#{method}"
-        self.values[method] = "%#{value}%"
-      end
+
+    def abstract!
+      raise "this is abstract class"
     end
-    
-    def eq(method, options={})
-      compare(method, "=", options)
+
+    def create_conditions
+      abstract!
     end
-    
-    def inc(method, options={})
-      value = eval(method.to_s)
-      value = value.split(",") if value.is_a?(String) && value.include?(",")
-      unless value.blank?
-        column = options[:column] || method
-        self.where << "#{with_table_name(options[:table_name],column)} in (:#{method})"
-        self.values[method] = value
+
+
+    def like _method, table_name, options={}
+      value = eval _method.to_s
+      if value.present?
+        self.where << "#{with_table_name(table_name, _method)} like :#{_method}"
+        self.values[_method] = "%#{value}%"
       end
     end
 
-    def compare(method, sign, options={})
+    def eq _method, table_name, options={}
+      compare _method, "=", table_name, options
+    end
+
+    def inc _method, table_name, options={}
+      value = eval _method.to_s
+      value = value.splot(",") if value.is_a(String) && value.include?(",")
+      if value.present?
+        column = options[:column] || _method
+        self.where << "#{with_table_name(options[:table_name],column)} in (:#{_method})"
+        self.values[_method] = value
+      end
+    end
+
+    def compare method, sign, table_name, options={}
       return unless sign =~ /^[<>=]{1,2}$/
       value = eval(method.to_s)
       unless value.blank?
@@ -72,7 +120,7 @@ module Railstar
       end
     end
 
-    def bit(method, options={})
+    def bit method, table_name, options={}
       value = eval(method.to_s)
       unless value.blank?
         column = options[:column] || method
@@ -81,12 +129,16 @@ module Railstar
       end
     end
 
-
     def with_table_name table_name, method
       ret = ""
       ret << "#{table_name || target_model.table_name}." if table_name
       ret << method.to_s
       ret
+    end
+
+    def reset_conditions
+      self.where = []
+      self.values = {}
     end
   end
 end

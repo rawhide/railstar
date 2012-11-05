@@ -53,10 +53,10 @@ module Railstar
 
     #params(検索条件を渡す)
     def initialize conditions={}
-      conditions.each_pair do | key, val |
+      conditions.each do | key, val |
         writer_method = "#{key}="
-        self.send(writer_method, val) if self.respond_to?(writer_method)
-      end
+        self.send(writer_method, val)
+      end if conditions
     end
 
     def find(options={})

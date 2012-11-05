@@ -1,4 +1,6 @@
-class Search::Project < Railstar::SearchBase
+class Search::Project
+  include Railstar::SearchBase
+
   TARGET_COLUMN = %w(name like_name)
   attr_accessor *TARGET_COLUMN
 

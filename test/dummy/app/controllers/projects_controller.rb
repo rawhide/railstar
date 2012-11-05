@@ -5,8 +5,8 @@
 
 class ProjectsController < ApplicationController
   def index
-    @search = Search::Project.new(params[:search])
-    @projects = @search.base.joins("inner join tasks on tasks.project_id = projects.id").order("created_at desc").group("projects.id").all
+#    @search = Search::Project.new(params[:search])
+    @projects = Project.joins("inner join tasks on tasks.project_id = projects.id").order("created_at desc").group("projects.id").all
   end
 
   def show
